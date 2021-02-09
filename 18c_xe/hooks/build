@@ -9,3 +9,6 @@ echo "pre build script complete."
 
 docker image ls
 
+echo "building minimized image..."
+
+docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
