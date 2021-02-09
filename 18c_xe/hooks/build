@@ -1,6 +1,9 @@
 #!/bin/bash
 
-start_dir=${PWD}
+echo "current directory: $PWD"
+cwd=$(PWD)
+
+ls -la
 
 git clone https://github.com/oracle/docker-images.git
 
@@ -13,6 +16,8 @@ docker image ls
 
 echo "building minimized image..."
 
-cd $start_dir
+cd $cwd
+
+ls -la
 
 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
