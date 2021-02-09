@@ -1,14 +1,18 @@
 #!/bin/bash
 
+start_dir=${PWD}
+
 git clone https://github.com/oracle/docker-images.git
 
 cd docker-images/OracleDatabase/SingleInstance/dockerfiles
 ./buildContainerImage.sh -v 18.4.0 -x
 
-echo "pre build script complete."
+echo "oracle image build script complete."
 
 docker image ls
 
 echo "building minimized image..."
+
+cd $start_dir
 
 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
