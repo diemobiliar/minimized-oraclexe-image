@@ -26,12 +26,12 @@ Then use the Dockerfile from this project to build the minimized image:
 ```shell script
 $ git clone https://github.com/diemobiliar/minimized-oraclexe-image.git
 $ cd minimized-oraclexe-image/18c_xe
-$ docker build . -t diemobiliar/oracle:18c_xe
+$ docker build . -t diemobiliar/minimized-oraclexe-image:18.4.0-xe
 
 $ docker image ls
-REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
-diemobiliar/oracle   18c_xe              df4317e0b89d        21 seconds ago      3.9GB
-oracle/database      18.4.0-xe           79e03b2304a7        2 hours ago         5.89GB
+REPOSITORY                             TAG                 IMAGE ID            CREATED             SIZE
+diemobiliar/minimized-oraclexe-image   18c_xe              df...9d             21 seconds ago      3.9GB
+oracle/database                        18.4.0-xe           79...a7             2 hours ago         5.89GB
 ```
 
 The ```examples``` directory contains an example on how to use this image using [testcontainers](https://www.testcontainers.org/).
@@ -50,7 +50,7 @@ Important: don't miss out on the "M".
 
 Example:
  ```shell script
-docker run -e "SGA_TARGET=512M"  --name 18c_xe512m -p 1523:1521 diemobiliar/oracle:18c_xe
+docker run -e "SGA_TARGET=512M"  --name 18c_xe512m -p 1523:1521 diemobiliar/minimized-oraclexe-image:18.4.0-xe
 ```
 
 
@@ -59,5 +59,3 @@ docker run -e "SGA_TARGET=512M"  --name 18c_xe512m -p 1523:1521 diemobiliar/orac
 A big thank-you goes to the creators of the image:
   * Alain Fuhrer, IT Database Services, [Die Mobiliar](https://www.mobiliar.ch/)
   * Andreas Wyssenbach, Database-Specialist, [Die Mobiliar](https://www.mobiliar.ch/)
-
-
