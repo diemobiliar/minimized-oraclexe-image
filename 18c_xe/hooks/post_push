@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker tag $IMAGE_NAME $DOCKER_REPO:18.4.0-xe
+docker push $DOCKER_REPO:18.4.0-xe
