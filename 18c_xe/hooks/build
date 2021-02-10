@@ -1,9 +1,0 @@
-#!/bin/bash
-
-echo "available images during build:"
-docker image ls
-
-echo "building minimized image..."
-echo "building $DOCKERFILE_PATH using tag $IMAGE_NAME"
-
-docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .

@@ -8,3 +8,6 @@ cd docker-images/OracleDatabase/SingleInstance/dockerfiles
 echo "oracle image build script complete."
 
 docker image ls
+
+docker tag oracle/database:18.4.0-xe diemobiliar/oraclexe-image:18.4.0-xe
+docker push diemobiliar/oraclexe-image:18.4.0-xe
