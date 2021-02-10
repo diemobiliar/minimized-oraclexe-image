@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "pulling base oracle xe image..."
+docker pull diemobiliar/oraclexe-image:18.4.0-xe
+echo "base image pulled"
+
+echo "docker images:"
+docker image ls
+
+# docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+
+echo "build script end."
