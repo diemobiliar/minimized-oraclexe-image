@@ -17,8 +17,8 @@ WORKDIR ${ORACLE_HOME}
 ################################################################################################################
 # sqlplus
 ################################################################################################################
-COPY createUserAndTS.sh $ORACLE_HOME
-COPY health_check.sh $ORACLE_HOME
+COPY --chown=oracle:oinstall createUserAndTS.sh $ORACLE_HOME
+COPY --chown=oracle:oinstall health_check.sh $ORACLE_HOME
 RUN mkdir -p bin
 COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/sqlplus\
