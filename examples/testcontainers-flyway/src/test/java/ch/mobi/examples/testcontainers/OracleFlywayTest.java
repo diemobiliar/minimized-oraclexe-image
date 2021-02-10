@@ -19,7 +19,7 @@ public class OracleFlywayTest {
     // will be shared between test methods
     @Container
     private static final OracleContainer oracle =
-            new OracleContainer("diemobiliar/oracle:18c_xe")
+            new OracleContainer("diemobiliar/minimized-oraclexe-image:18.4.0-xe")
                     .withUsername("AOO_TESTS")
                     .withPassword("AOO_TESTS");
 
