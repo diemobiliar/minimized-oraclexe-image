@@ -1,3 +1,5 @@
+FROM diemobiliar/oraclexe-image:18.4.0-xe as oraclexe
+
 FROM oraclelinux:7-slim
 
 ENV ORACLE_BASE /opt/oracle
@@ -18,11 +20,11 @@ WORKDIR ${ORACLE_HOME}
 COPY createUserAndTS.sh $ORACLE_HOME
 COPY health_check.sh $ORACLE_HOME
 RUN mkdir -p bin
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/sqlplus\
   bin/
 RUN mkdir -p lib
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/lib/libsqlplus.so\
   ${ORACLE_HOME}/lib/libclntsh.so.18.1\
   ${ORACLE_HOME}/lib/libclntshcore.so.18.1\
@@ -32,18 +34,18 @@ COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
   ${ORACLE_HOME}/lib/libons.so\
   lib/
 RUN mkdir -p sqlplus/mesg
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/sqlplus/mesg/sp1us.msb\
   ${ORACLE_HOME}/sqlplus/mesg/sp2us.msb\
   sqlplus/mesg/
 RUN mkdir -p rdbms/mesg
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/rdbms/mesg/ocius.msb\
   ${ORACLE_HOME}/rdbms/mesg/oraus.msb\
   ${ORACLE_HOME}/rdbms/mesg/diaus.msb\
   rdbms/mesg/
 RUN mkdir -p oracore/zoneinfo
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/oracore/zoneinfo/*.dat\
   oracore/zoneinfo/
 RUN du -h ${ORACLE_BASE} | sort -u
@@ -53,11 +55,11 @@ RUN du -h ${ORACLE_BASE} | sort -u
 ################################################################################################################
 #TODO# move audit and dbs (rooh)
 RUN mkdir -p rdbms/audit dbs log rdbms/log
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/oracle\
   bin/
 #RUN strip --remove-section=.comment ${ORACLE_HOME}/bin/oracle
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/lib/libodm18.so\
   ${ORACLE_HOME}/lib/libofs.so\
   ${ORACLE_HOME}/lib/libcell18.so\
@@ -74,7 +76,7 @@ COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
   ${ORACLE_HOME}/lib/libasmclntsh18.so\
   lib/
 RUN mkdir -p oracore/mesg
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/oracore/mesg/lrmus.msb\
   oracore/mesg
 RUN echo -e 'db_name=XE' >> ${ORACLE_HOME}/dbs/initXE.ora
@@ -85,19 +87,19 @@ RUN echo -e 'SHARED_POOL_SIZE=400M' >> ${ORACLE_HOME}/dbs/initXE.ora
 # oracle rdbms
 ################################################################################################################
 RUN mkdir -p ldap/mesg
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/ldap/mesg/ldapus.msb\
   ldap/mesg/
 RUN mkdir -p network/mesg
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/network/mesg/tnsus.msb\
   network/mesg
 RUN mkdir -p nls/data
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/nls/data\
   nls/data
 RUN mkdir -p rdbms/admin
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/rdbms/admin/sql.bsq\
   ${ORACLE_HOME}/rdbms/admin/dcore.bsq\
   ${ORACLE_HOME}/rdbms/admin/dsqlddl.bsq\
@@ -135,7 +137,7 @@ RUN echo -e 'whenever sqlerror exit failure;\n startup nomount;\n create databas
 # oracle catalog
 ################################################################################################################
 # simpler to take all files, that's only 20MB more than the required ones
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/rdbms/admin/*.sql\
   ${ORACLE_HOME}/rdbms/admin/*.plb\
   rdbms/admin/
@@ -147,7 +149,7 @@ RUN du -h ${ORACLE_BASE} | sort -u
 ################################################################################################################
 RUN mkdir -p rdbms/xml
 # prvt_emx.register_files(TRUE) needs rdbms/xml
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/rdbms/xml\
   rdbms/xml
 RUN echo -e 'startup;\n set echo on termout off\n spool /var/tmp/catproc.lst\n @?/rdbms/admin/catproc' | ORACLE_BASE=${ORACLE_BASE} LD_LIBRARY_PATH=${ORACLE_HOME}/lib ORACLE_HOME=${ORACLE_HOME} ORACLE_SID=${ORACLE_SID} ${ORACLE_HOME}/bin/sqlplus / as sysdba
@@ -158,7 +160,7 @@ RUN $ORACLE_HOME/createUserAndTS.sh
 # listener
 ################################################################################################################
 RUN mkdir -p bin
-COPY --from=diemobiliar/oraclexe-image:18.4.0-xe --chown=oracle:oinstall\
+COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/lsnrctl\
   ${ORACLE_HOME}/bin/tnslsnr\
   bin/
