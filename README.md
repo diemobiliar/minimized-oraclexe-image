@@ -7,9 +7,17 @@ This is a minimized image based on the [official Oracle Docker XE](https://githu
 Image but removes files not required for this purpose to minimize image file size and improve 
 startup time.
 
+
+## DockerHub
+
+The docker image is available at [DockerHub](https://hub.docker.com/repository/docker/diemobiliar/minimized-oraclexe-image). Instructions to build it yourself are below.
+
+![Docker Pulls](https://img.shields.io/docker/pulls/diemobiliar/minimized-oraclexe-image)
+
+
 ## Image creation
 
-First you will ned to create the official Oracle Docker image
+First you will need to create the official Oracle Docker image
 
 ```shell script
 $ git clone https://github.com/oracle/docker-images.git
