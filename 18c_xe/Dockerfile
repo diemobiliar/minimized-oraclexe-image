@@ -19,8 +19,10 @@ WORKDIR ${ORACLE_HOME}
 ################################################################################################################
 COPY --chown=oracle:oinstall createUserAndTS.sh $ORACLE_HOME
 COPY --chown=oracle:oinstall health_check.sh $ORACLE_HOME
+COPY --chown=oracle:oinstall runMinimizedOracle.sh $ORACLE_HOME
 RUN chmod a+x $ORACLE_HOME/createUserAndTS.sh
 RUN chmod a+x $ORACLE_HOME/health_check.sh
+RUN chmod a+x $ORACLE_HOME/runMinimizedOracle.sh
 RUN mkdir -p bin
 COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/sqlplus\
@@ -166,7 +168,7 @@ COPY --from=oraclexe --chown=oracle:oinstall\
   ${ORACLE_HOME}/bin/lsnrctl\
   ${ORACLE_HOME}/bin/tnslsnr\
   bin/
-#TODO# if we add an external volume, need to move all ?/dbs to it at start (and symlink). clonedb may help to have onlyy sparse files
-CMD  echo -e "sga_target=${SGA_TARGET}" >> ${ORACLE_HOME}/dbs/initXE.ora; ${ORACLE_HOME}/bin/lsnrctl start ; echo create spfile from pfile\; | ${ORACLE_HOME}/bin/sqlplus / as sysdba ;echo startup | ${ORACLE_HOME}/bin/sqlplus / as sysdba ; ${ORACLE_HOME}/bin/lsnrctl status ; tail -f $ORACLE_BASE/diag/rdbms/*/*/trace/alert*.log
+#TODO# if we add an external volume, need to move all ?/dbs to it at start (and symlink). clonedb may help to have only sparse files
+CMD exec $ORACLE_HOME/runMinimizedOracle.sh
 HEALTHCHECK --interval=2s  --timeout=1s --retries=20 CMD $ORACLE_HOME/health_check.sh
 EXPOSE 1521
