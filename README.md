@@ -22,7 +22,7 @@ First you will need to create the official Oracle Docker image
 ```shell script
 $ git clone https://github.com/oracle/docker-images.git
 $ cd docker-images/OracleDatabase/SingleInstance/dockerfiles
-$ ./buildDockerImage.sh -v 18.4.0 -x
+$ ./buildContainerImage.sh -v 18.4.0 -x
 
 $ docker image ls
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -55,6 +55,9 @@ The SID is: ```XE```
 
 The image allows to specify the SGA memory from 288M to 1664M, the default being 1536M. 
 Important: don't miss out on the "M".
+
+The default ```system``` user password is "oracle".
+It can be customized using the environment variable: ```ORACLE_PWD```.
 
 Example:
  ```shell script

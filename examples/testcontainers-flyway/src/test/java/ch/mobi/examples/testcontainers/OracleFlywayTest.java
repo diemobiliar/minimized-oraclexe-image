@@ -1,9 +1,7 @@
 package ch.mobi.examples.testcontainers;
 
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.MigrationInfo;
 import org.flywaydb.core.api.MigrationInfoService;
-import org.flywaydb.core.api.MigrationState;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.OracleContainer;
@@ -24,7 +22,7 @@ public class OracleFlywayTest {
                     .withPassword("AOO_TESTS");
 
     @BeforeAll
-    public static void setupPostgreSQL() {
+    public static void printJdbcUrls() {
         System.out.println("-----------------------------------------------------------");
         System.out.println("Oracle JDBC URL: " + oracle.getJdbcUrl());
         System.out.println("===========================================================");
